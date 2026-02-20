@@ -111,16 +111,6 @@ python run.py
 
 ---
 
-## Seeding Sample Data
-
-Generate test users with different roles and hashed passwords:
-
-```
-python -m src.crud_py.seed
-```
-
----
-
 ## Roles
 
 **Admin**
