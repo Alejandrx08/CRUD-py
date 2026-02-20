@@ -255,3 +255,7 @@ def menu(usuario):
         elif accion == "0":
             print("gracias por utilizar CRUD-Py...")
             return
+
+        else:
+            print("caracter invalido.")
+            continue
