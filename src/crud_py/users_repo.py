@@ -63,7 +63,7 @@ def actualizar_usuario(
 
     try:
         with abrir_conexion() as conn:
-            if password == "":
+            if password is None or password.strip() == "":
                 cursor = conn.execute(
                     """UPDATE usuarios
                        SET nombre=?, apellido=?, correo=?, rango=?, tipo=?, activo=?

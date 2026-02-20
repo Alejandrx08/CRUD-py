@@ -1,32 +1,36 @@
 from .users_repo import buscar_correo
 from .security import verify_password
-from .users_repo import listar_usuarios
-from .users_repo import crear_usuarios
-from .users_repo import buscar_id
-from .users_repo import actualizar_usuario
-from .users_repo import eliminar_id
 from .db import init_db
+from .validaciones import (
+    validacion_vacio_w,
+    validacion_num_w,
+    validacion_none_w,
+    validacion_notnum_w,
+    validacion_vacio,
+    validacion_none,
+)
+from .users_repo import (
+    listar_usuarios,
+    crear_usuarios,
+    buscar_id,
+    actualizar_usuario,
+    eliminar_id,
+)
 
 
 def login():
     print("Bienvendo a CRUD")
 
     correoinput = input("ingrese su correo: ").strip().lower()
-
-    if correoinput == "":
-        print("Credenciales incorrectas...")
+    if validacion_vacio(correoinput):
         return False
 
     passinput = input("ingrese su contraseña: ").strip()
-
-    if passinput == "":
-        print("Credenciales incorrectas...")
+    if validacion_vacio(passinput):
         return False
 
     db_usuario = buscar_correo(correoinput)
-
-    if db_usuario is None:
-        print("Credenciales incorrectas...")
+    if validacion_none(db_usuario):
         return False
 
     if db_usuario["activo"] == 0:
@@ -75,25 +79,23 @@ def menu(usuario):
         elif accion == "2":
             if usuario["rango"] == "admin":
                 nombre = input("Nombre: ").strip()
-                if nombre == "":
+                if validacion_vacio_w(nombre):
                     continue
-                if nombre.isdigit():
-                    print("La entrada no puede ser numerica.")
+                if validacion_num_w(nombre):
                     continue
 
                 apellido = input("Apellido: ").strip()
-                if apellido == "":
+                if validacion_vacio_w(apellido):
                     continue
-                if apellido.isdigit():
-                    print("La entrada no puede ser numerica.")
+                if validacion_num_w(apellido):
                     continue
 
                 correo = input("Correo: ").strip()
-                if correo == "":
+                if validacion_vacio_w(correo):
                     continue
 
                 password = input("Contraseña: ").strip()
-                if password == "":
+                if validacion_vacio_w(password):
                     continue
 
                 print("Rango")
@@ -133,15 +135,15 @@ def menu(usuario):
         elif accion == "3":
             user_id = input("Id: ").strip()
 
-            if not user_id.isdigit():
-                print("El valor debe ser numérico.")
+            if validacion_vacio_w(user_id):
+                continue
+            if validacion_notnum_w(user_id):
                 continue
 
             usernum = int(user_id)
 
             user = buscar_id(usernum)
-            if user is None:
-                print("Usuario no existente.")
+            if validacion_none_w(user):
                 continue
 
             print(dict(user))
@@ -150,37 +152,36 @@ def menu(usuario):
             if usuario["rango"] == "admin":
 
                 user_id = input("Id: ").strip()
-
-                if not user_id.isdigit():
-                    print("el valor debe ser numerico")
+                if validacion_vacio_w(user_id):
+                    continue
+                if validacion_notnum_w(user_id):
                     continue
 
                 usernum = int(user_id)
 
                 idex = buscar_id(usernum)
-                if idex is None:
-                    print("Usuario no existente.")
+                if validacion_none_w(idex):
                     continue
 
                 nombre = input("Nombre: ").strip()
-                if nombre == "":
+                if validacion_vacio_w(nombre):
                     continue
-                if nombre.isdigit():
-                    print("La entrada no puede ser numerica.")
+                if validacion_num_w(nombre):
                     continue
 
                 apellido = input("Apellido: ").strip()
-                if apellido == "":
+                if validacion_vacio_w(apellido):
                     continue
-                if apellido.isdigit():
-                    print("La entrada no puede ser numerica.")
+                if validacion_num_w(apellido):
                     continue
 
                 correo = input("Correo: ").strip()
-                if correo == "":
+                if validacion_vacio_w(correo):
                     continue
 
-                password = input("Contraseña (Enter para no cambiar): ").strip()
+                password = input("Contraseña: (Enter para mantener):").strip()
+                if password == "":
+                    password = None
 
                 print("Rango")
                 print("1. Admin, 2.Usuario")
@@ -231,16 +232,15 @@ def menu(usuario):
         elif accion == "5":
             if usuario["rango"] == "admin":
                 user_id = input("Id: ").strip()
-
-                if not user_id.isdigit():
-                    print("el valor debe ser numerico")
+                if validacion_vacio_w(user_id):
+                    continue
+                if validacion_notnum_w(user_id):
                     continue
 
                 usernum = int(user_id)
 
                 idex = buscar_id(usernum)
-                if idex is None:
-                    print("Usuario no existente.")
+                if validacion_none_w(idex):
                     continue
 
                 count = eliminar_id(usernum)
