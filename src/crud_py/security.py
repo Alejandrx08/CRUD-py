@@ -1,5 +1,6 @@
 import bcrypt
 
+
 def hash_password(password):
     passbyte = password.encode()
     salt = bcrypt.gensalt()
